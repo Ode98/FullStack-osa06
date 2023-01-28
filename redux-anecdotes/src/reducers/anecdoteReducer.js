@@ -1,9 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit'
-import anecdoteService from '../services/anecdotes'
+import { createSlice } from "@reduxjs/toolkit";
+import anecdoteService from "../services/anecdotes";
 
-const initialState = []
+const initialState = [];
 const anecdoteSlice = createSlice({
-  name: 'anecdotes', 
+  name: "anecdotes",
   initialState,
   reducers: {
     voteAnecdote(state, action) {
@@ -11,39 +11,40 @@ const anecdoteSlice = createSlice({
         anecdote.id === action.payload.data.id
           ? { ...anecdote, votes: anecdote.votes + 1 }
           : anecdote
-      )
-      return newState
+      );
+      return newState;
     },
     appendAnecdote(state, action) {
-      state.push(action.payload)
+      state.push(action.payload);
     },
     setAnecdotes(state, action) {
-      return action.payload
-    }
-  }
-})
+      return action.payload;
+    },
+  },
+});
 
-export const { voteAnecdote, appendAnecdote, setAnecdotes } = anecdoteSlice.actions
+export const { voteAnecdote, appendAnecdote, setAnecdotes } =
+  anecdoteSlice.actions;
 
 export const initializeAnecdotes = () => {
-  return async dispatch => {
-    const anecdotes = await anecdoteService.getAll()
-    dispatch(setAnecdotes(anecdotes))
-  }
-}
+  return async (dispatch) => {
+    const anecdotes = await anecdoteService.getAll();
+    dispatch(setAnecdotes(anecdotes));
+  };
+};
 
-export const createAnecdote = content => {
-  return async dispatch => {
-    const newAnecdote = await anecdoteService.createNew(content)
-    dispatch(appendAnecdote(newAnecdote))
-  }
-}
+export const createAnecdote = (content) => {
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteService.createNew(content);
+    dispatch(appendAnecdote(newAnecdote));
+  };
+};
 
 export const vote = (id) => {
-  return async dispatch => {
-    const votedAnecdote = await anecdoteService.updateVotes(id)
-    dispatch(voteAnecdote(votedAnecdote))
-  }
-}
+  return async (dispatch) => {
+    const votedAnecdote = await anecdoteService.updateVotes(id);
+    dispatch(voteAnecdote(votedAnecdote));
+  };
+};
 
-export default anecdoteSlice.reducer
+export default anecdoteSlice.reducer;
